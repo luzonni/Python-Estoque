@@ -16,6 +16,7 @@ estoque.add(Produto(1, "Cenoura", 45, 3))
 estoque.add(Produto(2, "Couve", 56, 2))
 estoque.add(Produto(3, "Repolho", 36, 1))
 estoque.add(Produto(4, "Açai", 36, 1))
+estoque.add(Produto(5, "Peripessia", 36, 1))
 
 estoque.get(2)
 
