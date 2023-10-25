@@ -1,1 +1,1 @@
-0:Tijolo:1000:0/
+0:Beterraba:32:0/2:Couve:56:2/3:Repolho:36:1/
