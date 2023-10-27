@@ -1,1 +1,1 @@
-0:Beterraba:32:0/2:Couve:56:2/3:Repolho:36:1/
+0:Beterraba:98:0/1:Carne:98:0/2:Pneu:341:4/3:Arroz:421:0/4:Cerveja:3123:0/5:Canivete:6:3/6:Cano PVC:312:5/7:Frisby:21:1/8:Cadeira de Praia:43:2/

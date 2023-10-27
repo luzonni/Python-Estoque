@@ -1,12 +1,9 @@
 
 from Produto import Produto
 from Estoque import Estoque
-from Tagger import getTags
 
 # Variavel que possui uma lista de categorias salvas (Antes de rodar a janela)
-TAGS:list = getTags()
 
-print(TAGS)
 
 # Inicialização do estoque//banco (Antes de começar a rodar a janeça)
 estoque = Estoque("Banco.txt")

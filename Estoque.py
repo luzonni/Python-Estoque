@@ -22,12 +22,13 @@ class Estoque:
       with open(self.getPath(), 'w') as arquivo:
             arquivo.write("")
 
-    def add(self, produto:Produto):
+    def add(self, produto:Produto) -> bool:
         newId = produto.getID()
         for p in self.getList():
             if p.getID() == newId:
-                return
+                return False
         self.getList().append(produto)
+        return True
         
     def get(self, id:int):
          for p in self.getList():
@@ -41,13 +42,13 @@ class Estoque:
     
     def openList(self):
         path = self.getPath()
-        if os.path.exists(path):
+        if not os.path.exists(path):
            self.buildFile()
         arquivo = open(path, 'r')
         produtos = arquivo.read().split("/")[0:-1]
         for produto in produtos:
             produto = produto.split(":")
-            self.getList().append(Produto(produto[0], produto[1], produto[2], produto[3]))
+            self.getList().append(Produto(int(produto[0]), produto[1], int(produto[2]), int(produto[3])))
         self.clearFile()
     
     def closeList(self):

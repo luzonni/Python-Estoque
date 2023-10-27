@@ -1,7 +1,6 @@
 import os
 
-def getTags():
-    path = "Tags.txt"
+def getTags(path:str):
     if os.path.exists(path):
         with open(path, 'r') as arquivo:
             tags = []
