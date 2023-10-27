@@ -1,11 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-# Teste
-class Window:
-    
-    def __init__(self, ):
-        self.__name = "Lucas"
-    
+
 
 # Função para adicionar um valor à tabela
 def adicionar_valor():
@@ -33,12 +28,14 @@ def recuperar_valores():
 # Crie uma instância da janela principal
 janela = tk.Tk()
 janela.title("Tabela de Valores")
+janela.configure(bg='#363e50')
 
 # Crie um widget Treeview para a tabela
-tree = ttk.Treeview(janela, columns=('Valor 1', 'Valor 2', 'Valor 3'))
-tree.heading('#1', text='Valor 1')
-tree.heading('#2', text='Valor 2')
-tree.heading('#3', text='Valor 3')
+tree = ttk.Treeview(janela, columns=('ID', 'Nome', 'Quantidade', 'TAG'))
+tree.heading('#1', text='ID')
+tree.heading('#2', text='Nome')
+tree.heading('#3', text='Quantidade')
+tree.heading('#4', text='TAG')
 tree.pack()
 
 # Crie entradas para adicionar valores

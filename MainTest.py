@@ -11,6 +11,8 @@ print(TAGS)
 # Inicialização do estoque//banco (Antes de começar a rodar a janeça)
 estoque = Estoque("Banco.txt")
 
+
+
 estoque.add(Produto(0, "Beterraba", 32, 0))
 estoque.add(Produto(1, "Cenoura", 45, 3))
 estoque.add(Produto(2, "Couve", 56, 2))
