@@ -28,69 +28,77 @@ def recuperar_valores():
 # Instância da janela principal
 janela = tk.Tk()
 janela.title("Tabela de Valores")
-
-# Cor da Janela
-janela.configure(bg='#363e50')
-
-# Configurar o tamanho mínimo da janela
-janela.minsize(400, 300)
+janela.configure(bg='lightblue')
+janela.minsize(1000, 300)
 
 # Configurar a fonte
 font = tkFont.Font(family='Arial', size=14, weight='bold')
+framedireitafont = tkFont.Font(family='Arial', size=10, weight='bold')
 
-# Feito para colocar a tabela na esquerda
+# Frame para a tabela
 frame_esquerda = tk.Frame(janela)
 frame_esquerda.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
 
-# Feito para colocar as entradas e os botões na direita
+# Frame para as entradas e botões
 frame_direita = tk.Frame(janela)
 frame_direita.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
 
 # Crie um widget Treeview para a tabela
-tree = ttk.Treeview(frame_esquerda, columns=('ID', 'Nome', 'Quantidade', 'TAG'), show='headings')
-tree.heading('#1', text='ID')
-tree.heading('#2', text='Nome')
-tree.heading('#3', text='Quantidade')
+tree = ttk.Treeview(frame_esquerda, columns=('CATEGORIA', 'NOME', 'QUANTIDADE', 'TAG'), show='headings')
+tree.heading('#1', text='CATEGORIA')
+tree.heading('#2', text='NOME')
+tree.heading('#3', text='QUANTIDADE')
 tree.heading('#4', text='TAG')
 
-tree.column('#0', width=0, stretch=tk.NO)
+tree.column('#1', width=100)
+tree.column('#2', width=100)
+tree.column('#3', width=100)
+tree.column('#4', width=100)
+
+tree.pack(fill=tk.BOTH, expand=True)
 
 
-tree.pack(fill=tk.BOTH, expand=True) #o fill=tk.BOTH, expand=true serve para preencher e expandir para ajustar ao tamanho
-
-
-# Isso aqui serve para configurar  o peso das colunas e linhas para que elas se ajustem à janela
+# Configurar o peso das colunas e linhas
 janela.columnconfigure(0, weight=1)
 janela.columnconfigure(1, weight=1)
 janela.rowconfigure(0, weight=1)
 
 # Crie entradas para adicionar valores
-valor1_label = tk.Label(frame_direita, text='ID:')
+valor1_label = tk.Label(frame_direita, text='CATEGORIA:', font=framedireitafont)
 valor1_label.pack()
 valor1_entry = tk.Entry(frame_direita)
 valor1_entry.pack(fill=tk.X)
 
-valor2_label = tk.Label(frame_direita, text='Nome:')
+valor2_label = tk.Label(frame_direita, text='NOME:', font=framedireitafont)
 valor2_label.pack()
 valor2_entry = tk.Entry(frame_direita)
 valor2_entry.pack(fill=tk.X)
 
-valor3_label = tk.Label(frame_direita, text='Quantidade:')
+valor3_label = tk.Label(frame_direita, text='QUANTIDADE:', font=framedireitafont)
 valor3_label.pack()
 valor3_entry = tk.Entry(frame_direita)
 valor3_entry.pack(fill=tk.X)
 
-valor4_label = tk.Label(frame_direita, text='TAG:')
+valor4_label = tk.Label(frame_direita, text='TAG:', font=framedireitafont)
 valor4_label.pack()
 valor4_entry = tk.Entry(frame_direita)
 valor4_entry.pack(fill=tk.X)
 
-# O fill=tk.x serve para peencher horizontalmente
-
 # Crie botões para adicionar e remover valores
-tk.Button(frame_direita, text="Adicionar Valor", command=adicionar_valor).pack()
-tk.Button(frame_direita, text="Remover Valor Selecionado", command=remover_valor).pack()
-tk.Button(frame_direita, text="Print Valores", command=recuperar_valores).pack()
+botao1 = ttk.Button(frame_direita, text="Adicionar Valor", command=adicionar_valor)
+botao1.pack(pady=5)
+
+botao2 = ttk.Button(frame_direita, text="Remover Valor", command=remover_valor)
+botao2.pack(pady=5)
+
+botao3 = ttk.Button(frame_direita, text="Mostrar Valores", command=recuperar_valores)
+botao3.pack(pady=5)
+
+
+#estilo 
+style = ttk.Style()
+style.configure("Treeview.Heading", font=('Arial', 8))
+
 
 # Inicie o loop principal da interface gráfica
 janela.mainloop()
