@@ -43,6 +43,7 @@ frame_esquerda.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
 frame_direita = tk.Frame(janela)
 frame_direita.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
 
+
 # Crie um widget Treeview para a tabela
 tree = ttk.Treeview(frame_esquerda, columns=('CATEGORIA', 'NOME', 'QUANTIDADE', 'TAG'), show='headings')
 tree.heading('#1', text='CATEGORIA')
@@ -54,6 +55,7 @@ tree.column('#1', width=100)
 tree.column('#2', width=100)
 tree.column('#3', width=100)
 tree.column('#4', width=100)
+
 
 tree.pack(fill=tk.BOTH, expand=True)
 
@@ -94,11 +96,17 @@ botao2.pack(pady=5)
 botao3 = ttk.Button(frame_direita, text="Mostrar Valores", command=recuperar_valores)
 botao3.pack(pady=5)
 
+# estilo da Treeview para as colunas
+column_style = ttk.Style()
+column_style.configure("Treeview.Heading", font=('Arial', 8), background="#121718")
 
-#estilo 
-style = ttk.Style()
-style.configure("Treeview.Heading", font=('Arial', 8))
+# estilo da Treeview para as linhas
+row_style = ttk.Style()
+row_style.configure("Treeview", rowheight=25, background="#bbd5de", font=('Arial', 8))
 
+# Obs: Tentei fazer com que as linhas e colunas ficassem com espaçamento, cor e qualquer coisa do tipo diferente, mas
+# aparentemente não deu certo. Se souber a resposta, seria interessante alterar isso. Vou deixar ambos no código, pois
+# não faz diferença. O Único que funciona é o row_style
 
 # Inicie o loop principal da interface gráfica
 janela.mainloop()
