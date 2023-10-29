@@ -86,15 +86,28 @@ valor4_label.pack()
 valor4_entry = tk.Entry(frame_direita)
 valor4_entry.pack(fill=tk.X)
 
-# Crie botões para adicionar e remover valores
-botao1 = ttk.Button(frame_direita, text="Adicionar Valor", command=adicionar_valor)
-botao1.pack(pady=5)
+#Criação e personalização dos botões
 
-botao2 = ttk.Button(frame_direita, text="Remover Valor", command=remover_valor)
-botao2.pack(pady=5)
+# Botão Adicionar
+botao_adicionar = tk.Button(frame_direita, text="Adicionar Valor", command=adicionar_valor)
+botao_adicionar.config(bg="green", fg="White", width=15)
+botao_adicionar.pack(pady=5)
 
-botao3 = ttk.Button(frame_direita, text="Mostrar Valores", command=recuperar_valores)
-botao3.pack(pady=5)
+# Botão Remover
+botao_remover = tk.Button(frame_direita, text="Remover Valor", command=remover_valor)
+botao_remover.config(bg="red", fg="White", width=15)
+botao_remover.pack(pady=5)
+
+# Botão Editar
+# botao_editar = tk.Button(frame_direita, text="Editar Valor", command=editar_valor)
+# botao_editar.config(bg="blue", fg="white", width=15)
+# botao_editar.pack(pady=5)
+
+
+# Botão Mostrar Valores
+botao_mostrar = tk.Button(frame_direita, text="Mostrar Valores", command=recuperar_valores)
+botao_mostrar.config(bg="yellow", width=15)
+botao_mostrar.pack(pady=5)
 
 # estilo da Treeview para as colunas
 column_style = ttk.Style()
