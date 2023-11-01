@@ -21,6 +21,11 @@ class Estoque:
     def clearFile(self):
       with open(self.getPath(), 'w') as arquivo:
             arquivo.write("")
+            
+    def isEmpty(self) -> bool:
+        if len(self.getList()) == 0:
+            return True
+        return False
 
     def add(self, produto:Produto) -> bool:
         newId = produto.getID()
