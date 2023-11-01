@@ -4,7 +4,7 @@ from tkinter import ttk
 import tkinter.font as tkFont
 from Tagger import getTags
 
-TAGS:list = getTags("Tags.txt")
+TAGS:list = getTags("Tags.db")
 
 
 def adicionar_valor():
