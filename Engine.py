@@ -48,7 +48,7 @@ class Engine:
         if not self.__estoque.isEmpty():
             produtos = self.__estoque.getList()
             for produto in produtos:
-                self.tree.insert('', 'end', values=(produto.getID(), produto.getNome(), produto.getAmount(), TAGS[produto.getTagID()]))
+                self.tree.insert('', 'end', values=(produto.id, produto.nome, produto.quantidade, TAGS[produto.tagId]))
         janela.columnconfigure(0, weight=1)
         janela.columnconfigure(1, weight=1)
         janela.rowconfigure(0, weight=1)

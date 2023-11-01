@@ -28,21 +28,21 @@ class Estoque:
         return False
 
     def add(self, produto:Produto) -> bool:
-        newId = produto.getID()
+        newId = produto.id
         for p in self.getList():
-            if p.getID() == newId:
+            if p.id == newId:
                 return False
         self.getList().append(produto)
         return True
         
     def get(self, id:int):
          for p in self.getList():
-            if p.getID() == id:
+            if p.id == id:
                 return p
         
     def remove(self, id:int):
         for p in self.getList():
-            if p.getID() == id:
+            if p.id == id:
                 self.getList().remove(p)
     
     def openList(self):

@@ -1,31 +1,38 @@
 class Produto:
   
-  def __init__(self, id:int, nome:str, quantidade:int, tag_id:int):
+  def __init__(self, id:int, nome:str, quantidade:int, tagId:int):
     self.__id = id
     self.__nome = nome
     self.__quantidade = quantidade
-    self.__tag_id = tag_id
+    self.__tagId = tagId
 
   def __str__(self):
-    return f'{self.getID()}:{self.getNome()}:{self.getAmount()}:{self.getTagID()}'
+    return f'{self.id}:{self.nome}:{self.quantidade}:{self.tagId}'
 
-  def getID(self) -> int:
+  @property
+  def id(self) -> int:
     return self.__id
   
-  def getNome(self) -> str:
+  @property
+  def nome(self) -> str:
     return self.__nome
   
-  def setNome(self, nome:str):
+  @nome.setter
+  def nome(self, nome:str):
     self.__nome = nome
   
-  def getAmount(self) -> int:
+  @property
+  def quantidade(self) -> int:
     return self.__quantidade
   
-  def setAmount(self, Amount:str):
+  @quantidade.setter
+  def quantidade(self, Amount:str):
     self.__quantidade = Amount
   
-  def getTagID(self) -> int:
-    return self.__tag_id
+  @property
+  def tagId(self) -> int:
+    return self.__tagId
   
-  def changeTagID(self, newTag):
-    self.__tag_id = newTag
+  @tagId.setter
+  def tagId(self, newTagId):
+    self.__tagId = newTagId
