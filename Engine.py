@@ -4,10 +4,11 @@ from tkinter import ttk
 import tkinter.font as tkFont
 from Produto import Produto
 from Estoque import Estoque
-from Tagger import getTags
+from Tagger import Tagger
 
 PATH:str = "Banco.db"
-TAGS:list = getTags("Tags.db")
+Tagger:Tagger = Tagger("Tags.db")
+TAGS:list = Tagger.getTags()
 
 class Engine:
     
@@ -115,4 +116,4 @@ class Engine:
         self.__window.destroy()
             
             
-Engine("Teste")
+Engine("Estoque")
