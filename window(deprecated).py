@@ -26,6 +26,13 @@ def recuperar_valores():
         valores = tree.item(item)['values']
         print(valores)
 
+def carregar_dados_do_arquivo(arquivo):
+    with open(arquivo, 'r') as file:
+        for line in file:
+            data = line.strip().split(',')
+            if len(data) == 3:
+                tree.insert('', 'end', values=(0, data[0], data[1], data[2]))
+
 # Instância da janela principal
 janela = tk.Tk()
 janela.title("Tabela de Valores")
@@ -116,6 +123,12 @@ column_style.configure("Treeview.Heading", font=('Arial', 8), background="#12171
 # estilo da Treeview para as linhas
 row_style = ttk.Style()
 row_style.configure("Treeview", rowheight=25, background="#bbd5de", font=('Arial', 8))
+
+
+def carregar_arquivo():
+    arquivo = "infoEmpresa.txt"
+    carregar_dados_do_arquivo(arquivo)
+
 
 # Inicie o loop principal da interface gráfica
 janela.mainloop()
