@@ -129,7 +129,6 @@ def carregar_arquivo():
     arquivo = "infoEmpresa.txt"
     carregar_dados_do_arquivo(arquivo)
 
-carregar_arquivo()
 
 # Inicie o loop principal da interface gráfica
 janela.mainloop()
