@@ -36,7 +36,7 @@ class Tagger:
         self.__window = tk.Tk()
         self.__window.title("Adicionar/Remover Tags")
         self.__window.configure(bg='#363f4e')
-        self.__window.minsize(500, 200)
+        self.__window.minsize(500, 100)
         self.__window.resizable(width=False, height=False)
         font = tkFont.Font(family='Arial', size=14, weight='bold')
         framedireitafont = tkFont.Font(family='Arial', size=10)
@@ -47,14 +47,11 @@ class Tagger:
         self.__tree = ttk.Treeview(frame_esquerda, columns=('TAG'), show='headings')
         self.__tree.heading('#1', text='Tags')
         self.__tree.column('#1', width=100)
-        scroll = ttk.Scrollbar(frame_esquerda, orient="vertical", command=self.__tree.yview)
-        self.__tree.configure(yscrollcommand=scroll.set)
         self.__tree.pack(fill=tk.BOTH)
-        scroll.pack(side="right", fill="y")
         self.__window.columnconfigure(0, weight=1)
         self.__window.columnconfigure(1, weight=1)
         self.__window.rowconfigure(0, weight=1)
-        label_nome_tag = tk.Label(frame_direita, text='Nome:', font=framedireitafont)
+        label_nome_tag = tk.Label(frame_direita, text='Tag:', font=framedireitafont)
         label_nome_tag.pack()
         self.__entry_nome_tag = tk.Entry(frame_direita)
         self.__entry_nome_tag.pack(fill=tk.X)
@@ -68,21 +65,23 @@ class Tagger:
         botao_finish.config(bg="#2b323e", fg="white", width=15)
         botao_finish.pack(side="top", padx=10, pady=5)
         coluna_style = ttk.Style()
-        coluna_style.configure("Treeview", rowheight=25, background="#5e6571", font=('Arial', 8))
-        self.__window.protocol("WM_DELETE_WINDOW", self.closeList)
+        coluna_style.configure("Treeview", rowheight=25, background="#cad5e8", font=('Arial', 10))
+        # self.__window.protocol("WM_DELETE_WINDOW", self.closeList)
         self.__window.mainloop()
 
     def adicionar_tag(self):
         valor = self.__entry_nome_tag.get()
+        print(valor)
         if valor:
-            self.__tree.insert('', 'end', values=(valor))
+            self.__tree.insert('', tk.END, values=(valor,))
             self.__entry_nome_tag.delete(0, 'end')
             self.__listTags.append(valor)
 
     def remover_tag(self):
         selected_item = self.__tree.selection()
+        index_selected = self.__tree.index(selected_item[0])
         if selected_item:
-            self.__listTags.remove(str(self.__tree.item(selected_item)["values"][0]))
+            self.__listTags.remove(self.__listTags[index_selected])
             self.__tree.delete(selected_item)
             
     

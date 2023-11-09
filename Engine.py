@@ -116,4 +116,4 @@ class Engine:
         self.__window.destroy()
             
             
-Engine("Estoque")
+Engine("Supermercado Ótimo!Preço")
