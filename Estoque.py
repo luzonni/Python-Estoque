@@ -56,6 +56,11 @@ class Estoque:
             self.getList().append(Produto(int(produto[0]), produto[1], int(produto[2]), int(produto[3])))
         self.clearFile()
     
+    def clearDB(self):
+        self.__list.clear()
+        with open(self.getPath(), 'w') as arquivo:
+            arquivo.write("")
+    
     def closeList(self):
         path = self.getPath()
         arquivo = open(path, 'a')
