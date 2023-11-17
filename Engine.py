@@ -3,12 +3,12 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import tkinter.font as tkFont
-from Produto import Produto
-from Estoque import Estoque
-from Tagger import Tagger
+from tools.Produto import Produto
+from tools.Estoque import Estoque
+from tools.Tagger import Tagger
 
-PATH:str = "Banco.db"
-Tagger:Tagger = Tagger("Tags.db")
+PATH:str = "res/Banco.db"
+Tagger:Tagger = Tagger("res/Tags.db")
 TAGS:list = Tagger.getTags()
 
 class Engine:

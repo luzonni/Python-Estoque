@@ -1,5 +1,5 @@
 import os
-from Produto import Produto
+from tools.Produto import Produto
 
 class Estoque:
     
