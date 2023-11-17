@@ -1,9 +1,10 @@
-from Produto import Produto
-from Estoque import Estoque
-from Tagger import getTags
+from tools.Produto import Produto
+from tools.Estoque import Estoque
+from tools.Tagger import Tagger
 
-PATH:str = "Banco.txt"
-TAGS:list = getTags("Tags.txt")
+PATH:str = "res/Banco.db"
+Tagger:Tagger = Tagger("res/Tags.db")
+TAGS:list = Tagger.getTags()
 
 class IO:
     
@@ -41,12 +42,12 @@ class IO:
         table = self.getEstoque()
         id = int(input("Qual o ID do produto?\n"))
         if input("Deseja alterar seu nome? (y/n)") == "y":
-            table.get(id).setNome(input("Novo nome: "))
+            table.get(id).nome = input("Novo nome: ")
         elif input("Deseja alterar sua Quantidade? (y/n)") == "y":
-            table.get(id).setAmount(int(input("Nova quantidade: ")))
+            table.get(id).quantidade = int(input("Nova quantidade: "))
         elif input("Deseja alterar sua TAG? (y/n)") == "y":
             tag_id = self.pickTag()
-            table.get(id).changeTagID(tag_id)
+            table.get(id).tagId = tag_id
             
     def pickTag(self) -> int:
         print("Escolha qual a TAG do seu produto:")
@@ -57,7 +58,7 @@ class IO:
     def showTable(self):
         table = self.getEstoque().getList()
         for item in table:
-           print(f'ID: {item.getID():_>3} | Nome: {item.getNome():_>25} | Quantidade: {item.getAmount():_>9} | TAG: {TAGS[item.getTagID()]:_>15}')
+           print(f'ID: {item.id:_>3} | Nome: {item.nome:_>25} | Quantidade: {item.quantidade:_>9} | TAG: {TAGS[item.tagId]:_>15}')
 
     def close(self):
         self.__running = False

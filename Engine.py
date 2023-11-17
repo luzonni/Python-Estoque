@@ -160,7 +160,10 @@ class Engine:
     def alterar_item(self, frame:Tk, id:int, entry_nome:Entry ,entry_quantidade:Entry, entry_tag:ttk.Combobox):
         produto_editado = Produto(id, entry_nome.get(), entry_quantidade.get(), entry_tag.current())
         self.__estoque.getList()[id] = produto_editado
-        self.tree.item(self.tree.focus(), values=(produto_editado.id, produto_editado.nome, produto_editado.quantidade, TAGS[produto_editado.tagId]))
+        self.tree.delete(*self.tree.get_children())
+        produtos = self.__estoque.getList()
+        for produto in produtos:
+            self.tree.insert('', 'end', values=(produto.id, produto.nome, produto.quantidade, TAGS[produto.tagId]))
         frame.destroy()
     
     def filtrarTable(self, event):
