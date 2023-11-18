@@ -18,8 +18,8 @@ class Engine:
         self.__window = tk.Tk()
         self.__window.title(name)
         self.__window.configure(bg='lightblue')
-        self.__window.minsize(1000, 300)
-        self.__configOn = False
+        self.__window.minsize(400, 300)
+        self.__auxWindow:Tk = tk.Frame(self.__window)
         self.configWindow(self.__window)
         
     @property
@@ -31,7 +31,7 @@ class Engine:
         self.__estoque = newEstoque
     
     def configWindow(self, janela:Tk):
-        janela.resizable(width=False, height=False)
+        janela.resizable(width=True, height=False)
         janela.columnconfigure(0, weight=1)
         janela.rowconfigure(0, weight=1)
         janela.protocol("WM_DELETE_WINDOW", self.close)
@@ -44,10 +44,10 @@ class Engine:
         self.tree.heading('#2', text='NOME')
         self.tree.heading('#3', text='QUANTIDADE')
         self.tree.heading('#4', text='TAG')
-        self.tree.column('#1', width=100)
-        self.tree.column('#2', width=100)
-        self.tree.column('#3', width=100)
-        self.tree.column('#4', width=100)
+        self.tree.column('#1', width=10)
+        self.tree.column('#2', width=200)
+        self.tree.column('#3', width=200)
+        self.tree.column('#4', width=200)
         if not self.__estoque.isEmpty():
             produtos = self.__estoque.getList()
             for produto in produtos:
@@ -79,23 +79,25 @@ class Engine:
         janela.mainloop()
         
     def addFrame_Inserir(self, janela:Tk):
+        self.__auxWindow.destroy()
+        self.__auxWindow = tk.Frame(janela)
         font = tkFont.Font(family='Arial', size=10, weight='bold')
-        frame_meio = tk.Frame(janela)
-        frame_meio.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
-        label_nome = tk.Label(frame_meio, text='NOME:', font=font)
+        self.__auxWindow.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
+        label_nome = tk.Label(self.__auxWindow, text='NOME:', font=font)
         label_nome.pack()
-        self.entry_nome = tk.Entry(frame_meio)
+        self.entry_nome = tk.Entry(self.__auxWindow)
         self.entry_nome.pack(fill=tk.X, padx=15)
-        label_quantidade = tk.Label(frame_meio, text='QUANTIDADE:', font=font)
+        label_quantidade = tk.Label(self.__auxWindow, text='QUANTIDADE:', font=font)
         label_quantidade.pack()
-        self.entry_quantidade = tk.Entry(frame_meio, validate='key', validatecommand=(janela.register(lambda novo_valor: novo_valor.isdigit() or novo_valor == ''), '%P'))
+        self.entry_quantidade = tk.Entry(self.__auxWindow, validate='key', validatecommand=(janela.register(lambda novo_valor: novo_valor.isdigit() or novo_valor == ''), '%P'))
         self.entry_quantidade.pack()
-        label_tag = tk.Label(frame_meio, text='TAG:', font=font)
+        label_tag = tk.Label(self.__auxWindow, text='TAG:', font=font)
         label_tag.pack()
-        self.entry_tag = ttk.Combobox(frame_meio, values=TAGS, state="readonly")
+        self.entry_tag = ttk.Combobox(self.__auxWindow, values=TAGS, state="readonly")
         self.entry_tag.set("Selecione uma Tag")
         self.entry_tag.pack(fill=tk.X, padx=10)
-        botao_adicionar = tk.Button(frame_meio, text="Adicionar Valor", command=lambda : self.adicionar_valor(frame_meio))
+        botao_adicionar = tk.Button(self.__auxWindow, text="Adicionar Valor", command=lambda : self.adicionar_valor(self.__auxWindow))
         botao_adicionar.config(bg="#8ab0bd", fg="black", width=15)
         botao_adicionar.pack(side=tk.BOTTOM, pady=25)
     
@@ -108,54 +110,52 @@ class Engine:
         nome:str = produto.nome
         quantidade:int = produto.quantidade
         tag_id:int = produto.tagId
-        
+        self.__auxWindow.destroy()
+        self.__auxWindow = tk.Frame(janela)
         font = tkFont.Font(family='Arial', size=10, weight='bold')
-        frame_meio = tk.Frame(janela)
-        frame_meio.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
+        self.__auxWindow.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
         
-        
-        tk.Label(frame_meio, text=f'Editando produto: {nome}').pack()
-        tk.Label(frame_meio, text='NOME:', font=font).pack()
+        tk.Label(self.__auxWindow, text=f'Editando produto: {nome}').pack()
+        tk.Label(self.__auxWindow, text='NOME:', font=font).pack()
         texto_variavel_quantidade = tk.StringVar()
         texto_variavel_quantidade.set(nome)
-        entry_nome = tk.Entry(frame_meio, textvariable=texto_variavel_quantidade)
+        entry_nome = tk.Entry(self.__auxWindow, textvariable=texto_variavel_quantidade)
         entry_nome.pack(fill=tk.X, padx=15)
-        tk.Label(frame_meio, text='QUANTIDADE:', font=font).pack()
+        tk.Label(self.__auxWindow, text='QUANTIDADE:', font=font).pack()
         texto_variavel_quantidade = tk.StringVar()
         texto_variavel_quantidade.set(quantidade)
-        entry_quantidade = tk.Entry(frame_meio, validate='key', validatecommand=(janela.register(lambda novo_valor: novo_valor.isdigit() or novo_valor == ''), '%P'), textvariable=texto_variavel_quantidade)
+        entry_quantidade = tk.Entry(self.__auxWindow, validate='key', validatecommand=(janela.register(lambda novo_valor: novo_valor.isdigit() or novo_valor == ''), '%P'), textvariable=texto_variavel_quantidade)
         
         entry_quantidade.pack()
-        label_tag = tk.Label(frame_meio, text='TAG:', font=font)
+        label_tag = tk.Label(self.__auxWindow, text='TAG:', font=font)
         label_tag.pack()
-        entry_tag = ttk.Combobox(frame_meio, values=TAGS, state="readonly")
+        entry_tag = ttk.Combobox(self.__auxWindow, values=TAGS, state="readonly")
         entry_tag.set(TAGS[tag_id])
         entry_tag.pack(fill=tk.X, padx=10)
-        botao_adicionar = tk.Button(frame_meio, text="Alterar", command=lambda : self.alterar_item(frame_meio, id, entry_nome, entry_quantidade, entry_tag))
+        botao_adicionar = tk.Button(self.__auxWindow, text="Alterar", command=lambda : self.alterar_item(self.__auxWindow, id, entry_nome, entry_quantidade, entry_tag))
         botao_adicionar.config(bg="#8ab0bd", fg="black", width=15)
         botao_adicionar.pack(side=tk.BOTTOM, pady=25)
     
     def addFrame_Config(self, janela:Tk):
-        if not self.__configOn:
-            font = tkFont.Font(family='Arial', size=10, weight='bold')
-            frame_direita = tk.Frame(janela)
-            frame_direita.grid(row=0, column=2, padx=10, pady=10, sticky='nsew')
-            tk.Button(frame_direita, text="Fechar", command=lambda : self.destroyFrame(frame_direita)).pack(anchor="ne", padx=10, pady=10)
-            tk.Label(frame_direita, text='___ Configurações ___', font=font).pack()
-            tk.Label(frame_direita, text='Limpar lista de Tags:', font=font).pack()
-            botao_remover_tags = tk.Button(frame_direita, text="Limpar", command=self.dellTagFile)
-            botao_remover_tags.config(bg="#faa0a1")
-            botao_remover_tags.pack(fill=tk.X, padx=15)
-            tk.Label(frame_direita, text='Reiniciar tabela:', font=font).pack()
-            botao_remover_items = tk.Button(frame_direita, text="Limpar", command=self.dellallItemsFile)
-            botao_remover_items.config(bg="#faa0a1")
-            botao_remover_items.pack(fill=tk.X, padx=15)
-            self.__configOn = True
-    
-    
-    def destroyFrame(self, frame):
-        frame.destroy()
-        self.__configOn = False
+        self.__auxWindow.destroy()
+        self.__auxWindow = tk.Frame(janela)
+        font = tkFont.Font(family='Arial', size=10, weight='bold')
+        self.__auxWindow.grid(row=0, column=2, padx=10, pady=10, sticky='nsew')
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
+        tk.Label(self.__auxWindow, text='___ Configurações ___', font=font).pack()
+        tk.Label(self.__auxWindow, text='Limpar lista de Tags:', font=font).pack()
+        botao_remover_tags = tk.Button(self.__auxWindow, text="Limpar", command=self.dellTagFile)
+        botao_remover_tags.config(bg="#faa0a1")
+        botao_remover_tags.pack(fill=tk.X, padx=15)
+        tk.Label(self.__auxWindow, text='Reiniciar tabela:', font=font).pack()
+        botao_remover_items = tk.Button(self.__auxWindow, text="Limpar", command=self.dellallItemsFile)
+        botao_remover_items.config(bg="#faa0a1")
+        botao_remover_items.pack(fill=tk.X, padx=15)
+        tk.Label(self.__auxWindow, text='Editar lista de tags:', font=font).pack()
+        botao_editar_tags = tk.Button(self.__auxWindow, text="Editar", command =Tagger.start)
+        botao_editar_tags.config(bg="#8ab0bd")
+        botao_editar_tags.pack(fill=tk.X, padx=15)
     
     def alterar_item(self, frame:Tk, id:int, entry_nome:Entry ,entry_quantidade:Entry, entry_tag:ttk.Combobox):
         produto_editado = Produto(id, entry_nome.get(), entry_quantidade.get(), entry_tag.current())
@@ -211,8 +211,13 @@ class Engine:
         selected_item = self.tree.selection()
         if selected_item:
             id_selected = self.tree.item(selected_item)["values"][0]
-            self.tree.delete(selected_item)
-            self.__estoque.remove(id_selected)
+            resposta = messagebox.askyesno("Confirmação", f'Desesa apagar "{self.__estoque.get(id_selected).nome}" da tabela?')
+            if resposta:
+                    self.tree.delete(selected_item)
+                    self.__estoque.remove(id_selected)
+            else: 
+                print("Ação cancelada!")
+       
             
 
     def recuperar_valores(self):

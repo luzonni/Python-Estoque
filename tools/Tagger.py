@@ -15,13 +15,16 @@ class Tagger:
             with open(self.__path, 'r') as arquivo:
                 text = arquivo.read().split("/")
                 for item in text:
-                    self.__listTags.append(item)
-            return self.__listTags[0: len(self.__listTags)-1]
+                    print(item)
+                    if item:
+                        self.__listTags.append(item)
+            return self.__listTags
         else:
-            self.start()
+            self.start(None)
             return self.__listTags
 
     def closeList(self):
+        print(self.__listTags)
         with open(self.__path, 'w') as arquivo:
             arquivo.write(self.changeToFile(self.__listTags))
         self.__window.destroy()
@@ -31,7 +34,7 @@ class Tagger:
         for tag in tagsArray:
             line += tag + "/"
         return line
-    
+        
     def start(self):
         self.__window = tk.Tk()
         self.__window.title("Adicionar/Remover Tags")
@@ -64,11 +67,14 @@ class Tagger:
         coluna_style = ttk.Style()
         coluna_style.configure("Treeview", rowheight=25, background="#cad5e8", font=('Arial', 10))
         # self.__window.protocol("WM_DELETE_WINDOW", self.closeList)
+        if self.__listTags and self.__listTags:
+            for tag in self.__listTags:
+                self.__tree.insert('', tk.END, values=(tag,))
         self.__window.mainloop()
 
     def adicionar_tag(self):
+        print("item adicionado!")
         valor = self.__entry_nome_tag.get()
-        print(valor)
         if valor:
             self.__tree.insert('', tk.END, values=(valor,))
             self.__entry_nome_tag.delete(0, 'end')
