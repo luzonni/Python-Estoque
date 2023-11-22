@@ -18,7 +18,7 @@ class Engine:
         self.__window = tk.Tk()
         self.__window.title(name)
         self.__window.configure(bg='lightblue')
-        self.__window.minsize(400, 300)
+        self.__window.minsize(600, 300)
         self.__auxWindow:Tk = tk.Frame(self.__window)
         self.configWindow(self.__window)
         
@@ -32,10 +32,9 @@ class Engine:
     
     def configWindow(self, janela:Tk):
         janela.resizable(width=True, height=False)
-        janela.columnconfigure(0, weight=1)
-        janela.rowconfigure(0, weight=1)
+        janela.columnconfigure(0, weight=2)
+        janela.rowconfigure(0, weight=2)
         janela.protocol("WM_DELETE_WINDOW", self.close)
-        
         # Frame Main
         frame_esquerda = tk.Frame(janela)
         frame_esquerda.grid(row=0, column=0, padx=10, pady=10, sticky='nsew')
@@ -44,7 +43,7 @@ class Engine:
         self.tree.heading('#2', text='NOME')
         self.tree.heading('#3', text='QUANTIDADE')
         self.tree.heading('#4', text='TAG')
-        self.tree.column('#1', width=10)
+        self.tree.column('#1', width=50)
         self.tree.column('#2', width=200)
         self.tree.column('#3', width=200)
         self.tree.column('#4', width=200)
@@ -74,16 +73,16 @@ class Engine:
         botao_config = tk.Button(frame_esquerda, text="Config", command=func_config)
         botao_config.config(bg="#8ab0bd", fg="black", width=10)
         botao_config.pack(side=LEFT, anchor=tk.W, padx=10)
-        
-        
         janela.mainloop()
         
     def addFrame_Inserir(self, janela:Tk):
         self.__auxWindow.destroy()
         self.__auxWindow = tk.Frame(janela)
+        janela.columnconfigure(1, weight=1)
+        janela.rowconfigure(1, weight=1)
         font = tkFont.Font(family='Arial', size=10, weight='bold')
         self.__auxWindow.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
-        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.closeAuxWindow(janela)).pack(anchor="ne", padx=10, pady=10)
         label_nome = tk.Label(self.__auxWindow, text='NOME:', font=font)
         label_nome.pack()
         self.entry_nome = tk.Entry(self.__auxWindow)
@@ -97,7 +96,7 @@ class Engine:
         self.entry_tag = ttk.Combobox(self.__auxWindow, values=TAGS, state="readonly")
         self.entry_tag.set("Selecione uma Tag")
         self.entry_tag.pack(fill=tk.X, padx=10)
-        botao_adicionar = tk.Button(self.__auxWindow, text="Adicionar Valor", command=lambda : self.adicionar_valor(self.__auxWindow))
+        botao_adicionar = tk.Button(self.__auxWindow, text="Adicionar Valor", command=lambda : self.adicionar_valor(janela))
         botao_adicionar.config(bg="#8ab0bd", fg="black", width=15)
         botao_adicionar.pack(side=tk.BOTTOM, pady=25)
     
@@ -105,16 +104,17 @@ class Engine:
         index = self.tree.index(self.tree.focus())
         produto = self.__estoque.get(index)
         
-        
         id:int = produto.id
         nome:str = produto.nome
         quantidade:int = produto.quantidade
         tag_id:int = produto.tagId
         self.__auxWindow.destroy()
         self.__auxWindow = tk.Frame(janela)
+        janela.columnconfigure(1, weight=1)
+        janela.rowconfigure(1, weight=1)
         font = tkFont.Font(family='Arial', size=10, weight='bold')
         self.__auxWindow.grid(row=0, column=1, padx=10, pady=10, sticky='nsew')
-        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.closeAuxWindow(janela)).pack(anchor="ne", padx=10, pady=10)
         
         tk.Label(self.__auxWindow, text=f'Editando produto: {nome}').pack()
         tk.Label(self.__auxWindow, text='NOME:', font=font).pack()
@@ -133,7 +133,7 @@ class Engine:
         entry_tag = ttk.Combobox(self.__auxWindow, values=TAGS, state="readonly")
         entry_tag.set(TAGS[tag_id])
         entry_tag.pack(fill=tk.X, padx=10)
-        botao_adicionar = tk.Button(self.__auxWindow, text="Alterar", command=lambda : self.alterar_item(self.__auxWindow, id, entry_nome, entry_quantidade, entry_tag))
+        botao_adicionar = tk.Button(self.__auxWindow, text="Alterar", command=lambda : self.alterar_item(janela, id, entry_nome, entry_quantidade, entry_tag))
         botao_adicionar.config(bg="#8ab0bd", fg="black", width=15)
         botao_adicionar.pack(side=tk.BOTTOM, pady=25)
     
@@ -142,7 +142,7 @@ class Engine:
         self.__auxWindow = tk.Frame(janela)
         font = tkFont.Font(family='Arial', size=10, weight='bold')
         self.__auxWindow.grid(row=0, column=2, padx=10, pady=10, sticky='nsew')
-        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.__auxWindow.destroy()).pack(anchor="ne", padx=10, pady=10)
+        tk.Button(self.__auxWindow, text="Fechar", command=lambda : self.closeAuxWindow(janela)).pack(anchor="ne", padx=10, pady=10)
         tk.Label(self.__auxWindow, text='___ Configurações ___', font=font).pack()
         tk.Label(self.__auxWindow, text='Limpar lista de Tags:', font=font).pack()
         botao_remover_tags = tk.Button(self.__auxWindow, text="Limpar", command=self.dellTagFile)
@@ -153,10 +153,32 @@ class Engine:
         botao_remover_items.config(bg="#faa0a1")
         botao_remover_items.pack(fill=tk.X, padx=15)
         tk.Label(self.__auxWindow, text='Editar lista de tags:', font=font).pack()
-        botao_editar_tags = tk.Button(self.__auxWindow, text="Editar", command =Tagger.start)
+        botao_editar_tags = tk.Button(self.__auxWindow, text="Editar", command =lambda : Tagger.edit())
         botao_editar_tags.config(bg="#8ab0bd")
         botao_editar_tags.pack(fill=tk.X, padx=15)
+        
+    def closeAuxWindow(self, janela:Tk):
+        self.__auxWindow.destroy()
+        janela.columnconfigure(0, weight=1)
+        janela.rowconfigure(0, weight=1)
+        janela.columnconfigure(1, weight=0)
+        janela.rowconfigure(1, weight=0)
     
+    def adicionar_valor(self, frame:Tk):
+        id:int = len(self.__estoque.getList())
+        nome:str = self.entry_nome.get()
+        quantidade:int = self.entry_quantidade.get()
+        tag_id:int = int(self.entry_tag.current())
+        
+        if nome and quantidade:
+            self.tree.insert('', 'end', values=(id, nome, quantidade, TAGS[tag_id]))
+            self.entry_nome.delete(0, 'end')
+            self.entry_quantidade.delete(0, 'end')
+            self.__estoque.add(Produto(id, nome, quantidade, tag_id))
+            self.closeAuxWindow(frame)
+        else:
+            print("Valores não preenchidos")
+            
     def alterar_item(self, frame:Tk, id:int, entry_nome:Entry ,entry_quantidade:Entry, entry_tag:ttk.Combobox):
         produto_editado = Produto(id, entry_nome.get(), entry_quantidade.get(), entry_tag.current())
         self.__estoque.getList()[id] = produto_editado
@@ -164,7 +186,7 @@ class Engine:
         produtos = self.__estoque.getList()
         for produto in produtos:
             self.tree.insert('', 'end', values=(produto.id, produto.nome, produto.quantidade, TAGS[produto.tagId]))
-        frame.destroy()
+        self.closeAuxWindow(frame)
     
     def filtrarTable(self, event):
         index = self.entry_filter.current()
@@ -192,20 +214,6 @@ class Engine:
         else: 
             print("Ação cancelada!")
             
-    def adicionar_valor(self, frame:Tk):
-        id:int = len(self.__estoque.getList())
-        nome:str = self.entry_nome.get()
-        quantidade:int = self.entry_quantidade.get()
-        tag_id:int = int(self.entry_tag.current())
-        
-        if nome and quantidade:
-            self.tree.insert('', 'end', values=(id, nome, quantidade, TAGS[tag_id]))
-            self.entry_nome.delete(0, 'end')
-            self.entry_quantidade.delete(0, 'end')
-            self.__estoque.add(Produto(id, nome, quantidade, tag_id))
-            frame.destroy()
-        else:
-            print("Valores não preenchidos")
             
     def remover_valor(self):
         selected_item = self.tree.selection()
